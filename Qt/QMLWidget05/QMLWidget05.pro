@@ -29,4 +29,5 @@ qtcAddDeployment()
 HEADERS += \
     qmlwidget05_01.h \
     qmlwidget05_02.h \
-    qmlwidget05_03.h
+    qmlwidget05_03.h \
+    Cube.h

@@ -1,10 +1,19 @@
 #include "qmlwidget05_03.h"
 #include <QtGui/QOpenGLFunctions>
 #include <QQuickWindow>
+#include "Cube.h"
 
 QMLWidget05_03::QMLWidget05_03(QQuickItem *parent) :
     QQuickItem(parent)
+  ,m_xRot(0)
+  ,m_yRot(0)
+  ,m_zRot(0)
+  ,m_xTranslate(0)
+  ,m_yTranslate(0)
+  ,m_zTranslate(1)
 {
+    //ItemHasContentsフラグを設定しないとupdate()でASSERTが発生する。
+    setFlag(QQuickItem::ItemHasContents, true);
 }
 
 void QMLWidget05_03::itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemChangeData &value)
@@ -36,94 +45,85 @@ void QMLWidget05_03::paint()
     if (!m_program) {
         m_program = new QOpenGLShaderProgram();
         m_program->addShaderFromSourceCode(QOpenGLShader::Vertex,
+                                           "attribute vec3 av3colour;\n"
                                            "attribute highp vec4 vertex;\n"
                                            "uniform highp mat4 matrix;\n"
+                                           "varying vec3 vv3colour;\n"
                                            "void main(void)\n"
                                            "{\n"
+                                           "   vv3colour = av3colour;\n"
                                            "   gl_Position = matrix * vertex;\n"
                                            "}");
         m_program->addShaderFromSourceCode(QOpenGLShader::Fragment,
-                                           "uniform mediump vec4 color;\n"
+                                   #ifdef Q_OS_MAC
+                                           "lowp float;\n"
+                                   #else
+                                           "precision lowp float;\n"
+                                   #endif
+                                           "varying vec3 vv3colour;\n"
                                            "void main(void)\n"
                                            "{\n"
-                                           "   gl_FragColor = color;\n"
+                                           "   gl_FragColor = vec4(vv3colour,1.0);\n"
                                            "}");
 
         m_program->link();
         vertexLocation = m_program->attributeLocation("vertex");
         matrixLocation = m_program->uniformLocation("matrix");
-        colorLocation = m_program->uniformLocation("color");
+        colorLocation = m_program->attributeLocation("av3colour");
 
         connect(window()->openglContext(), SIGNAL(aboutToBeDestroyed()),
                 this, SLOT(cleanup()), Qt::DirectConnection);
     }
     m_program->bind();
 
-    //    static GLfloat const triangleVertices[] = {
-    //        60.0f,  10.0f,  0.0f,
-    //        110.0f, 110.0f, 0.0f,
-    //        10.0f,  110.0f, 0.0f
-    //    };
-    /*static*/ GLfloat const triangleVertices[] = {
-        x()+width()/2,  y(),  0.0f,
-        x()+width(), y()+height(), 0.0f,
-        x(),  y()+height(), 0.0f
-    };
-    static GLfloat vertices [] =
-
-    {
-        -50.5f, -50.5f,  50.5f,
-
-         50.5f, -50.5f,  50.5f,
-
-         50.5f,  50.5f,  50.5f,
-
-        -50.5f,  50.5f,  50.5f,
-
-         50.5f, -50.5f, -50.5f,
-
-        -50.5f, -50.5f, -50.5f,
-
-        -50.5f,  50.5f, -50.5f,
-
-         50.5f,  50.5f, -50.5f,
-        0,0,0,
-        10,10,0,
-        0,10,0,
-        x()+width()/2,  y(),  0.0f,
-        x()+width(), y()+height(), 0.0f,
-        x(),  y()+height(), 0.0f
-
-    };
-
-    //    QColor color(0, 255, 0, 255);
-    QColor color(255, 0, 255, 255);
-
     QMatrix4x4 pmvMatrix;
-    //    pmvMatrix.ortho(rect());
-    pmvMatrix.ortho(x(), x()+width(), y()+height(), y(), -1, 1);
+    static GLfloat scale_x = 50;
+    static GLfloat scale_y = 50;
+    static GLfloat scale_z = 50;
+    //回転
+    pmvMatrix.rotate(m_xRot, 1,0,0);
+    pmvMatrix.rotate(m_yRot, 0,1,0);
+    pmvMatrix.rotate(m_zRot, 0,0,1);
+    pmvMatrix.scale(scale_x,scale_y,scale_z);
+
+    //nearPlane,farPlaneの値がCubeの見た目のサイズに影響する。なぜ？
+    pmvMatrix.ortho(x(), x()+width(), y()+height(), y(), -50, 50);
+
+    //透視投影やろうとしたが、うまくできていない
+//    pmvMatrix.frustum(x(), x()+width(), y()+height(), y(), -100, 100);
+//    pmvMatrix.frustum(0, window()->width(), window()->height(), 0, -100, 100);
+//    pmvMatrix.perspective(90, 1, -100, 100);
+
+    pmvMatrix.translate(x() + width()/2, y() + height()/2);
+    //下の行を有効にすると表示されなくなる。適切な位置に表示されていないのだろう。
+//    pmvMatrix.translate(x() + width()/2 + m_xTranslate, y() + height()/2 + m_yTranslate);
 
     m_program->enableAttributeArray(vertexLocation);
-//    m_program->setAttributeArray(vertexLocation, triangleVertices, 3);
     m_program->setAttributeArray(vertexLocation, vertices, 3);
+    m_program->enableAttributeArray(colorLocation);
+    m_program->setAttributeArray(colorLocation, colors, 3);
     m_program->setUniformValue(matrixLocation, pmvMatrix);
-    m_program->setUniformValue(colorLocation, color);
 
-        glViewport(0, 0, window()->width(), window()->height());
-//    glViewport(x(), window()->height() - (y()+height()), width(), height());
+    glEnable(GL_CULL_FACE);
+
+    glViewport(x(), window()->height() - (y()+height()), width(), height());
 
     glDisable(GL_DEPTH_TEST);
 
-    //    glEnable(GL_BLEND);
-    //    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-    glBlendFunc(GL_DST_COLOR, GL_ONE);
+    //blendについて、色々試してた
+//        glEnable(GL_BLEND);
+//        glBlendFunc(GL_ONE, GL_SRC_ALPHA);
+//        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+//    glBlendFunc(GL_DST_COLOR, GL_ONE);
     //    glBlendFunc(GL_DST_COLOR, GL_ZERO);
 
-//    glDrawArrays(GL_TRIANGLES, 0, 3);
-    glDrawArrays(GL_TRIANGLES, 8, 3);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 
     m_program->disableAttributeArray(vertexLocation);
+    m_program->disableAttributeArray(colorLocation);
     m_program->release();
+
+    glDisable(GL_CULL_FACE);
 }
 
 void QMLWidget05_03::cleanup()

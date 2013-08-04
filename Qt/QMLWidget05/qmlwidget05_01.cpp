@@ -44,20 +44,6 @@ void QMLWidget05_01::paint()
                                            "{\n"
                                            "   gl_Position = matrix * vertex;\n"
                                            "}");
-//        m_program->addShaderFromSourceCode(QOpenGLShader::Vertex,
-//                                           "attribute highp vec4 vertices;\n"
-//                                           "uniform highp mat4 matrix;\n"
-//                                           "void main(void)\n"
-//                                           "{\n"
-//                                           "   gl_Position = matrix * vertices;\n"
-//                                           "}");
-//        m_program->addShaderFromSourceCode(QOpenGLShader::Vertex,
-//                                           "attribute highp vec4 vertices;\n"
-//                                           "uniform highp mat4 matrix;\n"
-//                                           "void main(void)\n"
-//                                           "{\n"
-//                                           "   gl_Position = vertices;\n"
-//                                           "}");
         m_program->addShaderFromSourceCode(QOpenGLShader::Fragment,
                                            "uniform mediump vec4 color;\n"
                                            "void main(void)\n"
@@ -75,22 +61,15 @@ void QMLWidget05_01::paint()
     }
     m_program->bind();
 
-//    static GLfloat const triangleVertices[] = {
-//        60.0f,  10.0f,  0.0f,
-//        110.0f, 110.0f, 0.0f,
-//        10.0f,  110.0f, 0.0f
-//    };
-    /*static*/ GLfloat const triangleVertices[] = {
+    GLfloat const triangleVertices[] = {
         x()+width()/2,  y(),  0.0f,
         x()+width(), y()+height(), 0.0f,
         x(),  y()+height(), 0.0f
     };
 
-//    QColor color(0, 255, 0, 255);
     QColor color(255, 0, 255, 255);
 
     QMatrix4x4 pmvMatrix;
-//    pmvMatrix.ortho(rect());
     pmvMatrix.ortho(x(), x()+width(), y()+height(), y(), -1, 1);
 
     m_program->enableAttributeArray(vertexLocation);
