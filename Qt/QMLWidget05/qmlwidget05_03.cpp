@@ -12,8 +12,9 @@ QMLWidget05_03::QMLWidget05_03(QQuickItem *parent) :
   ,m_yTranslate(0)
   ,m_zTranslate(1)
 {
-    //ItemHasContentsフラグを設定しないとupdate()でASSERTが発生する。
-    setFlag(QQuickItem::ItemHasContents, true);
+    //Scene Graphを使わずにQQuickWindow::afterRendering signalを利用して直接openglで描画しているからか、
+    //ItemHasContentsフラグを設定しなくても特に問題は発生しない。
+//    setFlag(QQuickItem::ItemHasContents, true);
 }
 
 void QMLWidget05_03::itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemChangeData &value)
@@ -29,7 +30,7 @@ void QMLWidget05_03::itemChange(QQuickItem::ItemChange change, const QQuickItem:
         // Since this call is executed on the rendering thread it must be
         // a Qt::DirectConnection
         connect(win, SIGNAL(afterRendering()), this, SLOT(paint()), Qt::DirectConnection);
-        //        connect(win, SIGNAL(beforeRendering()), this, SLOT(paint()), Qt::DirectConnection);
+//        connect(win, SIGNAL(beforeRendering()), this, SLOT(paint()), Qt::DirectConnection);
 
         // If we allow QML to do the clearing, they would clear what we paint
         // and nothing would show.
@@ -55,11 +56,6 @@ void QMLWidget05_03::paint()
                                            "   gl_Position = matrix * vertex;\n"
                                            "}");
         m_program->addShaderFromSourceCode(QOpenGLShader::Fragment,
-                                   #ifdef Q_OS_MAC
-                                           "lowp float;\n"
-                                   #else
-                                           "precision lowp float;\n"
-                                   #endif
                                            "varying vec3 vv3colour;\n"
                                            "void main(void)\n"
                                            "{\n"

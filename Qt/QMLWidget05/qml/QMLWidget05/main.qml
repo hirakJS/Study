@@ -78,13 +78,10 @@ Item {
 ■残課題
 ・背景(QMLWidget0502)が環境によって右上1/4しか表示されない
 ・Cube(QMLWidget0503)の拡大縮小が対応できていない
-・Cube(QMLWidget0503)の平行移動がスムーズではない、マウスに追従しない
-・MACだとCubeのQQuickItemのupdate()を呼んでも再描画が走らない模様。")
-//        anchors.centerIn: parent
+・Cube(QMLWidget0503)の平行移動がスムーズではない、マウスに追従しない")
         anchors.bottom: parent.bottom
         width: parent.width
         color: "white"
-//        font.pixelSize: 20
         wrapMode: Text.WordWrap
     }
 

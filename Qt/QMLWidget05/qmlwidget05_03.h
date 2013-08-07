@@ -3,6 +3,7 @@
 
 #include <QQuickItem>
 #include <QtGui/QOpenGLShaderProgram>
+#include <QtQuick/QQuickWindow>
 
 class QMLWidget05_03 : public QQuickItem
 {
@@ -25,8 +26,16 @@ public:
         if(m_xRot != value){
             m_xRot = value;
             emit xRotChanged();
-            //Macだとupdate()呼んでも再描画が入らない。要調査。
-            update();
+            //Qt5.1.0だとupdate()呼んでも再描画が入らない問題があった。
+            //本クラスはScene Graphを使わずに直接opeglを使ってScene Graphの描画とは別に描画しているので、
+            //QQuickItem::update()ではなく、QQuickWindow::update()を呼んで再描画させるのが正しいのかもしれない。
+            //http://doc-snapshot.qt-project.org/qt5-stable/qtquick/qquickwindow.html#update
+            //によると、
+            //Calling QQuickWindow::update() differs from QQuickItem::update() in that it always triggers a repaint,
+            //regardless of changes in the underlying scene graph or not.
+            //とのことなので。
+//            update();
+            window()->update();
         }
     }
 
@@ -40,8 +49,7 @@ public:
         if(m_yRot != value){
             m_yRot = value;
             emit yRotChanged();
-            //Macだとupdate()呼んでも再描画が入らない。要調査。
-            update();
+            window()->update();
         }
     }
 
@@ -55,8 +63,7 @@ public:
         if(m_zRot != value){
             m_zRot = value;
             emit zRotChanged();
-            //Macだとupdate()呼んでも再描画が入らない。要調査。
-            update();
+            window()->update();
         }
     }
 
@@ -70,7 +77,7 @@ public:
         if(m_xTranslate != value){
             m_xTranslate = value;
             emit xTranslateChanged();
-            update();
+            window()->update();
         }
     }
 
@@ -84,7 +91,7 @@ public:
         if(m_yTranslate != value){
             m_yTranslate = value;
             emit yTranslateChanged();
-            update();
+            window()->update();
         }
     }
 
@@ -99,7 +106,7 @@ public:
         if(m_zTranslate != value){
             m_zTranslate = value;
             emit zTranslateChanged();
-            update();
+            window()->update();
         }
     }
 
