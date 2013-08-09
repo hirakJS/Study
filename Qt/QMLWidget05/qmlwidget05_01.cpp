@@ -9,6 +9,8 @@ QMLWidget05_01::QMLWidget05_01(QQuickItem *parent) :
 {
 }
 
+//Qt5.1.0(?)以降はwindowChanged signal を使ったほうが良いだろう。
+//http://qt.gitorious.org/qt/qtdeclarative/commit/d5e612fb3e9753c762b741d135fabd2b1f8ae1a6
 void QMLWidget05_01::itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemChangeData &value)
 {
     Q_UNUSED(value);
@@ -28,6 +30,7 @@ void QMLWidget05_01::itemChange(QQuickItem::ItemChange change, const QQuickItem:
         // and nothing would show.
         win->setClearBeforeRendering(false);
     }
+    QQuickItem::itemChange(change, value);
 }
 
 void QMLWidget05_01::paint()
