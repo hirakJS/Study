@@ -1,10 +1,10 @@
 import QtQuick 2.0
 import CustomParts 1.0
 
-Item {
+Rectangle {
     width: 360
     height: 360
-    QMLWidget0502{}
+    color: "black"
     QMLWidget0501{
         id:glwidget
         x:50
@@ -76,7 +76,6 @@ Item {
 四角形、三角形はdragで平行移動
 立方体はshift+dragで平行移動、dragでX,Y軸回転、shift+ctrl+y方向dragでz軸回転
 ■残課題
-・背景(QMLWidget0502)が環境によって右上1/4しか表示されない
 ・Cube(QMLWidget0503)の拡大縮小が対応できていない
 ・Cube(QMLWidget0503)の平行移動がスムーズではない、マウスに追従しない")
         anchors.bottom: parent.bottom
