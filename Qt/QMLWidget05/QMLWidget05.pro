@@ -14,7 +14,8 @@ QML_IMPORT_PATH =
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     qmlwidget05_01.cpp \
-    qmlwidget05_03.cpp
+    qmlwidget05_03.cpp \
+    qmlwidget05_04.cpp
 
 #QT += opengl desktop
 
@@ -28,4 +29,5 @@ qtcAddDeployment()
 HEADERS += \
     qmlwidget05_01.h \
     qmlwidget05_03.h \
-    Cube.h
+    Cube.h \
+    qmlwidget05_04.h

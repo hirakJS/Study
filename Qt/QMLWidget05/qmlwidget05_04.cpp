@@ -1,9 +1,9 @@
-#include "qmlwidget05_03.h"
+#include "qmlwidget05_04.h"
 #include <QtGui/QOpenGLFunctions>
 #include <QQuickWindow>
 #include "Cube.h"
 
-QMLWidget05_03::QMLWidget05_03(QQuickItem *parent) :
+QMLWidget05_04::QMLWidget05_04(QQuickItem *parent) :
     QQuickItem(parent)
   ,m_xRot(30)
   ,m_yRot(40)
@@ -22,7 +22,7 @@ QMLWidget05_03::QMLWidget05_03(QQuickItem *parent) :
 
 //Qt5.1.0(?)以降はwindowChanged signal を使ったほうが良いだろう。
 //http://qt.gitorious.org/qt/qtdeclarative/commit/d5e612fb3e9753c762b741d135fabd2b1f8ae1a6
-void QMLWidget05_03::itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemChangeData &value)
+void QMLWidget05_04::itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemChangeData &value)
 {
     Q_UNUSED(value);
     // The ItemSceneChange event is sent when we are first attached to a window.
@@ -44,7 +44,7 @@ void QMLWidget05_03::itemChange(QQuickItem::ItemChange change, const QQuickItem:
     QQuickItem::itemChange(change, value);
 }
 
-void QMLWidget05_03::paint()
+void QMLWidget05_04::paint()
 {
     static int vertexLocation = 0;
     static int matrixLocation = 0;
@@ -79,8 +79,11 @@ void QMLWidget05_03::paint()
     m_program->bind();
 
     QMatrix4x4 pmvMatrix;
-    //視体積の設定(平行投影)
-    pmvMatrix.ortho(-1, 1, -1, 1, -5, 1);
+    //視体積の設定(透視投影)　perspectiveかfrustumのどちらかを利用する。near/farの設定の理解がイマイチ。予想した位置でクリップされない。
+    pmvMatrix.perspective(60, 1, 0.5, -0.5);
+//    pmvMatrix.frustum(-1, 1, -1, 1, 1.5, -1);
+    //視野変換
+    pmvMatrix.lookAt(QVector3D(0,0,2.5), QVector3D(0,0,0),QVector3D(0,1,0));
 
     //平行移動
     pmvMatrix.translate(m_xTranslate, m_yTranslate);
@@ -119,7 +122,7 @@ void QMLWidget05_03::paint()
     glDisable(GL_CULL_FACE);
 }
 
-void QMLWidget05_03::cleanup()
+void QMLWidget05_04::cleanup()
 {
     if (m_program) {
         delete m_program;

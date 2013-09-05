@@ -1,11 +1,11 @@
-#ifndef QMLWIDGET05_03_H
-#define QMLWIDGET05_03_H
+#ifndef QMLWIDGET05_04_H
+#define QMLWIDGET05_04_H
 
 #include <QQuickItem>
 #include <QtGui/QOpenGLShaderProgram>
 #include <QtQuick/QQuickWindow>
 
-class QMLWidget05_03 : public QQuickItem
+class QMLWidget05_04 : public QQuickItem
 {
     Q_OBJECT
     Q_PROPERTY(int xRot READ xRot WRITE setXRot NOTIFY xRotChanged)
@@ -18,7 +18,8 @@ class QMLWidget05_03 : public QQuickItem
     Q_PROPERTY(float yTranslate READ yTranslate WRITE setYTranslate NOTIFY yTranslateChanged)
     Q_PROPERTY(float zTranslate READ zTranslate WRITE setZTranslate NOTIFY zTranslateChanged)
 public:
-    explicit QMLWidget05_03(QQuickItem *parent = 0);
+    explicit QMLWidget05_04(QQuickItem *parent = 0);
+    
     int xRot() const
     {
         return m_xRot;
@@ -188,4 +189,4 @@ private:
     float m_zTranslate;
 };
 
-#endif // QMLWIDGET05_03_H
+#endif // QMLWIDGET05_04_H
