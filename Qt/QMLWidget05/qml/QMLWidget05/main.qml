@@ -35,45 +35,7 @@ Rectangle {
             color: "white"
             text: qsTr("↓GLES2.0でCube(平行投影)")
         }
-        MouseArea {
-            property real prevMouseX: mouseX
-            property real prevMouseY: mouseY
-            property bool shift_key: false
-            property bool ctrl_key: false
-            anchors.fill: parent
-            onPressed: {
-                prevMouseX = mouseX
-                prevMouseY = mouseY
-            }
-
-            onPositionChanged: {
-                drag.target = null
-                if((mouse.modifiers & Qt.ShiftModifier) && (mouse.modifiers & Qt.ControlModifier)){
-                    glwidget2.zRot += mouseY - prevMouseY
-                }
-                else if((mouse.modifiers & Qt.ShiftModifier) && (mouse.modifiers & Qt.AltModifier)){
-                    //translateを使って平行移動。
-                    glwidget2.xTranslate += (mouseX - prevMouseX)*0.01
-                    glwidget2.yTranslate -= (mouseY - prevMouseY)*0.01
-                }
-                else if(mouse.modifiers & Qt.ShiftModifier){
-                    //glwidget2の座標を変えて平行移動。
-                    drag.target = glwidget2
-                }
-                else if(mouse.modifiers & Qt.ControlModifier){
-                    //拡大・縮小
-                    glwidget2.xScale += (mouseX - prevMouseX)*0.01
-                    glwidget2.yScale += (mouseX - prevMouseX)*0.01
-                    glwidget2.zScale += (mouseX - prevMouseX)*0.01
-                }
-                else{
-                    glwidget2.xRot += mouseY - prevMouseY
-                    glwidget2.yRot += mouseX - prevMouseX
-                }
-                prevMouseX = mouseX
-                prevMouseY = mouseY
-            }
-        }
+        GLWidgetManipulator{}
     }
 
     QMLWidget0504{
@@ -88,45 +50,7 @@ Rectangle {
             color: "white"
             text: qsTr("↓GLES2.0でCube(透視投影)")
         }
-        MouseArea {
-            property real prevMouseX: mouseX
-            property real prevMouseY: mouseY
-            property bool shift_key: false
-            property bool ctrl_key: false
-            anchors.fill: parent
-            onPressed: {
-                prevMouseX = mouseX
-                prevMouseY = mouseY
-            }
-
-            onPositionChanged: {
-                drag.target = null
-                if((mouse.modifiers & Qt.ShiftModifier) && (mouse.modifiers & Qt.ControlModifier)){
-                    glwidget3.zRot += mouseY - prevMouseY
-                }
-                else if((mouse.modifiers & Qt.ShiftModifier) && (mouse.modifiers & Qt.AltModifier)){
-                    //translateを使って平行移動。
-                    glwidget3.xTranslate += (mouseX - prevMouseX)*0.01
-                    glwidget3.yTranslate -= (mouseY - prevMouseY)*0.01
-                }
-                else if(mouse.modifiers & Qt.ShiftModifier){
-                    //glwidget3の座標を変えて平行移動。
-                    drag.target = glwidget3
-                }
-                else if(mouse.modifiers & Qt.ControlModifier){
-                    //拡大・縮小
-                    glwidget3.xScale += (mouseX - prevMouseX)*0.01
-                    glwidget3.yScale += (mouseX - prevMouseX)*0.01
-                    glwidget3.zScale += (mouseX - prevMouseX)*0.01
-                }
-                else{
-                    glwidget3.xRot += mouseY - prevMouseY
-                    glwidget3.yRot += mouseX - prevMouseX
-                }
-                prevMouseX = mouseX
-                prevMouseY = mouseY
-            }
-        }
+        GLWidgetManipulator{}
     }
     Rectangle{
         id:rect

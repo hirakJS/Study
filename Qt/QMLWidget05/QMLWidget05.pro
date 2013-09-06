@@ -31,3 +31,6 @@ HEADERS += \
     qmlwidget05_03.h \
     Cube.h \
     qmlwidget05_04.h
+
+OTHER_FILES += \
+    qml/QMLWidget05/GLWidgetManipulator.qml
