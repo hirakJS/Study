@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Name=ReflectionShader01
+Exec=/opt/ReflectionShader01/bin/ReflectionShader01
+Icon=ReflectionShader0164
+X-Window-Icon=
+X-HildonDesk-ShowInToolbar=true
+X-Osso-Type=application/x-executable
