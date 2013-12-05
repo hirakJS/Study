@@ -1,0 +1,10 @@
+# Qt's ignore files
+# shadow build folder
+*-[Dd]ebug
+*-[Rr]elease
+# user dependent file
+*.pro.user
+
+
+# MacOS's system files?
+.DS_Store
