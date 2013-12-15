@@ -1,0 +1,3 @@
+;　すべてのＤＬＬで共通のグローバルな変数です。
+SECTIONS
+	.CKHookData	READ WRITE SHARED
