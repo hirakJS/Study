@@ -22,22 +22,18 @@ ApplicationWindow {
         anchors.centerIn: parent
     }
 
-
-    ListView {
-        width: 200; height: 400
+    TableView {
+        anchors.fill: parent
+        focus:true
+        TableViewColumn{ role: "filePath"  ; title: "Path" ; width: 300 }
+        TableViewColumn{ role: "fileName" ; title: "FileName" ; width: 150 }
+        model: folderModel
 
         FolderListModel {
             id: folderModel
-//            nameFilters: ["*.o"]
             folder:"/"  //folder to reference
         }
-
-        Component {
-            id: fileDelegate
-            Text { text: fileName }
-        }
-
-        model: folderModel
-        delegate: fileDelegate
     }
+
+
 }
