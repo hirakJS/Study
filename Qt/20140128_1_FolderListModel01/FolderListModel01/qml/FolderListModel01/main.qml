@@ -25,8 +25,8 @@ ApplicationWindow {
     TableView {
         anchors.fill: parent
         focus:true
-        TableViewColumn{ role: "filePath"  ; title: "Path" ; width: 300 }
-        TableViewColumn{ role: "fileName" ; title: "FileName" ; width: 150 }
+        TableViewColumn{ role: "filePath"  ; title: "Full path" ; width: 300 }
+        TableViewColumn{ role: "fileName" ; title: "File or Directory name" ; width: 150 }
         model: folderModel
 
         FolderListModel {
