@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import com.nobo66.qmlcomponents 1.0
 
 Rectangle {
     width: 360
@@ -10,7 +11,11 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            Qt.quit();
+            console.log("myPlugin.prop1="+myPlugin.prop1)
         }
+    }
+    MyPlugin01{
+        id:myPlugin
+        prop1: "prop1_value"
     }
 }
