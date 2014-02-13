@@ -140,7 +140,7 @@ android-no-sdk {
             source = $$MAINPROFILEPWD/$$eval($${deploymentfolder}.source)
             source = $$replace(source, \\\\, /)
             macx {
-                target = $$OUT_PWD/$$DESTDIR/$${TARGET}.app/Contents/Resources/$$eval($${deploymentfolder}.target)
+                target = $$OUT_PWD/$${TARGET}.app/Contents/Resources/$$eval($${deploymentfolder}.target)
             } else {
                 target = $$OUT_PWD/$$eval($${deploymentfolder}.target)
             }

@@ -2,9 +2,6 @@
 folder_01.source = qml/PluginUser01
 folder_01.target = qml
 DEPLOYMENTFOLDERS = folder_01
-macx{
-    DESTDIR = ../../build-plugin
-}
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =

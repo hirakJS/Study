@@ -7,7 +7,7 @@ TARGET = $$qtLibraryTarget($$TARGET)
 uri = com.nobo66.qmlcomponents
 userapp = PluginUser01
 macx {
-    DESTDIR = ../../build-plugin/$${userapp}.app/Contents/MacOS/$$replace(uri, \\., /)
+    DESTDIR = $${userapp}.app/Contents/MacOS/$$replace(uri, \\., /)
 }
 
 # Input
