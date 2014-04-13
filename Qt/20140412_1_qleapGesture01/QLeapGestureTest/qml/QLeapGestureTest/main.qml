@@ -14,4 +14,16 @@ Rectangle {
             Qt.quit();
         }
     }
+    LeapGesture{
+        onSwipe: {
+            console.log("swipe speed="+speed)
+            console.log("swipe direction="+angle)
+        }
+        onCircleCW: {
+            console.log("circle clockwise")
+        }
+        onCircleCCW: {
+            console.log("circle counter clockwise")
+        }
+    }
 }
