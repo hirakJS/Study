@@ -11,7 +11,12 @@ userapp = QLeapGestureTest
 macx {
     leap_sdk_path = ${HOME}/LeapDeveloperKit/LeapSDK
 } else:win32 {
-    leap_sdk_path = ${HOMEPATH}/LeapDeveloperKit/LeapSDK
+    leap_sdk_path = C:/Users/Murakami/LeapDeveloperKit/LeapSDK
+# it's better to get home directory path from environment value but
+# the following expression does't work.
+#    leap_sdk_path = ${HOMEDRIVE}${HOMEPATH}/LeapDeveloperKit/LeapSDK
+#    leap_sdk_path = ${HOMEDRIVE}/Users/Murakami/LeapDeveloperKit/LeapSDK
+message(your leap_sdk_path is $${leap_sdk_path})
 }
 INCLUDEPATH += $${leap_sdk_path}/include
 macx {
