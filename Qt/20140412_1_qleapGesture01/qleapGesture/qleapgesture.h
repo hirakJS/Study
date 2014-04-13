@@ -14,9 +14,10 @@ public:
     ~QLeapGesture();
 
 signals:
-    //angle(degree):origin is right. counter clockwise.
+    //angle[degree]:origin is right. counter clockwise.
     //right - 0, up - 90, left - 180, down - 270
-    void swipe(double angle);
+    //speed[mm/s]:The speed of the finger performing the swipe gesture in millimeters per second.
+    void swipe(float angle, float speed);
 
     void circleCW();
     void circleCCW();

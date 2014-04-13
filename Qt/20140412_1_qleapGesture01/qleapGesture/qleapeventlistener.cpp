@@ -113,7 +113,7 @@ void QLeapEventListener::onSwipe(const SwipeGesture &gesture)
     QLeapGesture *listener = qobject_cast<QLeapGesture*>(m_listener);
     float angle = (gesture.direction()).angleTo(Vector(1.0, 0.0, 0.0));
     if(listener){
-        emit listener->swipe(angle);
+        emit listener->swipe(angle, gesture.speed());
     }
 }
 
