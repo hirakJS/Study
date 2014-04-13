@@ -18,6 +18,9 @@ signals:
     //right - 0, up - 90, left - 180, down - 270
     void swipe(double angle);
 
+    void circleCW();
+    void circleCCW();
+
 private:
     QLeapEventListener *m_qleapLitener;
     Controller         *m_controller;

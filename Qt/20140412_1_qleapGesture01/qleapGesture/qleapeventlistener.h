@@ -20,6 +20,7 @@ public:
 private:
     QQuickItem *m_listener;
     void onSwipe(const SwipeGesture&);
+    void onCircle(const CircleGesture&);
 };
 
 #endif // QLEAPEVENTLISTENER_H

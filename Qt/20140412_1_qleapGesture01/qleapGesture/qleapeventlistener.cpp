@@ -116,3 +116,19 @@ void QLeapEventListener::onSwipe(const SwipeGesture &gesture)
         emit listener->swipe(angle);
     }
 }
+
+void QLeapEventListener::onCircle(const CircleGesture &gesture)
+{
+    QLeapGesture *listener = qobject_cast<QLeapGesture*>(m_listener);
+    CircleGesture circle = gesture;
+
+    if(listener){
+        if (circle.pointable().direction().angleTo(circle.normal()) <= PI/4) {
+            //      clockwiseness = "clockwise";
+            emit listener->circleCW();
+        } else {
+            //      clockwiseness = "counterclockwise";
+            emit listener->circleCCW();
+        }
+    }
+}
