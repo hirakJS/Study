@@ -8,10 +8,17 @@ uri = Leap
 userapp = QLeapGestureTest
 # set your LeapSDK path
 # leap_sdk_path = C:/Path/To/Your/LeapSDK
-leap_sdk_path = C:/Users/Murakami/LeapDeveloperKit/LeapSDK
+macx {
+    leap_sdk_path = ${HOME}/LeapDeveloperKit/LeapSDK
+} else:win32 {
+    leap_sdk_path = ${HOMEPATH}/LeapDeveloperKit/LeapSDK
+}
 INCLUDEPATH += $${leap_sdk_path}/include
-win32:LIBS += $${leap_sdk_path}/lib/x86/Leap.lib
-win32 {
+macx {
+    LIBS += $${leap_sdk_path}/lib/libLeap.dylib
+    DESTDIR = ../$${userapp}/$${userapp}.app/Contents/MacOS/$$replace(uri, \\., /)
+} else:win32 {
+    LIBS += $${leap_sdk_path}/lib/x86/Leap.lib
     CONFIG(debug,debug|release) {
       DESTDIR = ../$${userapp}/debug/$$replace(uri, \\., /)
     } else {
