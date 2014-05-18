@@ -2,6 +2,7 @@ import QtQuick 2.0
 
 Item{
     property variant content_parent
+    property real offsetX:0
     id:main
     width: grid1.cellWidth; height: grid1.cellHeight
     Rectangle{
@@ -20,7 +21,7 @@ Item{
         Behavior on y { enabled: item.state != "active"; NumberAnimation { duration: 400; easing.type: Easing.OutBack } }
         states: State {
             name: "active"; when: loc.currentId == gridId
-            PropertyChanges { target: item; x: loc.mouseX/* - width/2*/; y: loc.mouseY /*- height/2*/; scale: 0.8; z: 10 }
+            PropertyChanges { target: item; x: loc.mouseX+offsetX/* - width/2*/; y: loc.mouseY /*- height/2*/; scale: 0.8; z: 10 }
         }
         transitions: Transition { NumberAnimation { property: "scale"; duration: 200} }
     }

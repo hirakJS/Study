@@ -17,7 +17,7 @@ Rectangle {
             x:grid1.width
 //            visible: false
             id:grid2
-            delegate: Icon{id:delegate2; content_parent: page1}
+            delegate: Icon{id:delegate2; content_parent: page1; offsetX: -grid2.x}
             model: model2
             width: grid1.width
             height: grid1.height
