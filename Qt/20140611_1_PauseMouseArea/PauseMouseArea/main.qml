@@ -6,10 +6,17 @@ Window {
     width: 360
     height: 360
 
-    MouseArea {
+    PauseMouseArea {
         anchors.fill: parent
-        onClicked: {
-            Qt.quit();
+        pauseInterval: 3000
+        onPausePositionChanged: {
+            console.log("onPausePositionChanged is called. mouse.x="+mouse.x+"   mouse.y="+mouse.y)
+            if(mouse.y > 180)
+                pause()
+        }
+        onPositionChanged: {
+            if(mouse.y > 200)
+                pause()
         }
     }
 
