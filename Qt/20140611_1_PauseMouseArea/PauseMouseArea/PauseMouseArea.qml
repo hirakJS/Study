@@ -5,7 +5,6 @@ MouseArea {
     property alias pauseInterval: tm.interval
     signal pausePositionChanged(variant mouse)
     function pause(){
-        console.debug("pause is called. tm.interval="+tm.interval)
         if(tm.isPausing){
             tm.restart()
         }
