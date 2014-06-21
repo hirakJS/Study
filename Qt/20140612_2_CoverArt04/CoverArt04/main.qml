@@ -40,12 +40,38 @@ ApplicationWindow {
             cellHeight: 110
             delegate:Column{
                 Rectangle{
-                    id:im_ca01
+                    id:im_ca_base
                     color: "gray"
                     width: gv01.cellWidth - 10
                     height: gv01.cellHeight - 10
                     anchors.horizontalCenter: parent.horizontalCenter
+                    Text{
+                        id:txt_caph
+                        text:(im_ca.status===Image.Null || im_ca.status===Image.Error) ? qsTr("no image") :
+                                                                                         (im_ca.status===Image.Loading ? qsTr("loading") : "")
+                        anchors.centerIn: parent
+                        SequentialAnimation{
+                            loops: Animation.Infinite
+                            running: im_ca.status===Image.Loading ? true : false
+                            NumberAnimation {
+                                target: txt_caph;
+                                property: "opacity";
+                                from: 1; to: 0;
+                                duration: 1000;
+                                easing.type: Easing.InOutQuad
+                            }
+                            NumberAnimation {
+                                target: txt_caph;
+                                property: "opacity";
+                                from: 0; to: 1;
+                                duration: 1000;
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
+                    }
+
                     Image{
+                        id:im_ca
                         source: "image://coverArt/" + filePath
                         anchors.fill: parent
                         sourceSize{
