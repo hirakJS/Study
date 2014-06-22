@@ -114,7 +114,7 @@ ApplicationWindow {
 
     Action {
         id: openAction
-        text: "&Open"
+        text: "&Open(select folder media file exists)"
         shortcut: "Ctrl+O"
         onTriggered: fileDialog.open()
         tooltip: "Open an Image"
