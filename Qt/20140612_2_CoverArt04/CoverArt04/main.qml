@@ -29,15 +29,17 @@ ApplicationWindow {
             text: qsTr("Hello World")
         }
         Button{
+            id:btn01
             action:openAction
         }
         GridView{
             id:gv01
             width: root.width
-            height: 600
+            height: root.height - txt01.height - btn01.height - 30
             model:folderModel
             cellWidth: 110
             cellHeight: 110
+            clip: true
             delegate:Column{
                 Rectangle{
                     id:im_ca_base
@@ -52,6 +54,7 @@ ApplicationWindow {
                         anchors.centerIn: parent
                         SequentialAnimation{
                             loops: Animation.Infinite
+                            alwaysRunToEnd: true
                             running: im_ca.status===Image.Loading ? true : false
                             NumberAnimation {
                                 target: txt_caph;
