@@ -5,7 +5,8 @@
 #include <QMutex>
 #include <QThread>
 
-#define TIME_OUT 2000
+#define TIME_OUT 100
+#define TRIAL_TIME 50
 
 CoverArtProvider::CoverArtProvider()
     :QQuickImageProvider(QQuickImageProvider::Image,
@@ -40,7 +41,7 @@ QImage CoverArtProvider::requestImage(const QString &id, QSize *size, const QSiz
     qDebug() << "mediaStatus=" << mediaStatus;
     int i = 0;
     while(mediaStatus == QMediaPlayer::LoadingMedia &&
-          i++ < 10){
+          i++ < TRIAL_TIME){
         qDebug() << "wait until mediaStatus is changed";
         QThread::msleep(TIME_OUT);
         mediaStatus = m_mediaPlayer->mediaStatus();
@@ -51,7 +52,7 @@ QImage CoverArtProvider::requestImage(const QString &id, QSize *size, const QSiz
     bool bMetaDataAvailable = m_mediaPlayer->isMetaDataAvailable();
     i = 0;
     if(mediaStatus == QMediaPlayer::LoadedMedia){
-        while(!bMetaDataAvailable && i++ < 10){
+        while(!bMetaDataAvailable && i++ < TRIAL_TIME){
             qDebug() << "isMataDataAvailable is false. wait until it turns to true.";
             QThread::msleep(TIME_OUT);
             bMetaDataAvailable = m_mediaPlayer->isMetaDataAvailable();
